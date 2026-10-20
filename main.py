@@ -1,13 +1,13 @@
 import time
 import pygame
 import math
-from pendulumRender import PendulumRenderer
+import pendulum
 
 pygame.init()
 
 screen = pygame.display.set_mode((1500, 1300))
 
-pr = PendulumRenderer(1500, 1000, 300, 20)
+pendulum = pendulum.Pendulum()
 
 clock = pygame.time.Clock()
 
@@ -15,9 +15,12 @@ counter = 0
 cartPos = 0
 
 while True:
-    screen.blit(pr.render(math.sin((counter / 100)) * math.pi, cartPos), (0, 0))
+    # ========================== main loop ============================
+    pendulum.update()
+    screen.blit(pendulum.render(math.sin((counter / 100)) * math.pi, cartPos), (0, 0))
     pygame.display.flip()
     clock.tick(60)
+
     counter += 1
 
     if pygame.key.get_pressed()[pygame.K_RIGHT]:
