@@ -4,7 +4,7 @@ import time
 import math
 
 class Pendulum:
-    def __init__(self, startAngle: float = 0, startVelocity: float = 0, startPosition: int = 0, cartMass: float = 1, pendulumMass: float = 1, pendulumLenght: float = 400):
+    def __init__(self, startAngle: float = 0, startVelocity: float = 0, startPosition: int = 0, cartMass: float = 5, pendulumMass: float = 1, pendulumLenght: float = 400):
         self.angle = startAngle
         self.angularVelocity = startVelocity
         self.cartPosition = startPosition
