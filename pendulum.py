@@ -4,7 +4,7 @@ import time
 import math
 
 class Pendulum:
-    def __init__(self, startAngle: float = 0, startVelocity: float = 0, startPosition: int = 0, cartMass: float = 5, pendulumMass: float = 1, pendulumLenght: float = 400):
+    def __init__(self, startAngle: float = 0, startVelocity: float = 0, startPosition: int = 0, cartMass: float = 5, pendulumMass: float = 1, pendulumLenght: int = 400):
         self.angle = startAngle
         self.angularVelocity = startVelocity
         self.cartPosition = startPosition
@@ -46,3 +46,9 @@ class Pendulum:
 
     def render(self) -> pygame.Surface:
         return self.pr.render(self.angle, self.cartPosition * 400)
+
+    def getAngle(self) -> float:
+        return self.angle % (2 * math.pi)
+
+    def getVelocity(self) -> float:
+        return self.angularVelocity
