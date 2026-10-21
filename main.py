@@ -17,16 +17,16 @@ cartForce = 0
 while True:
     # ========================== main loop ============================
     pendulum.update(cartForce)
-    screen.blit(pendulum.render(math.sin((counter / 100)) * math.pi, cartForce), (0, 0))
+    screen.blit(pendulum.render(), (0, 0))
     pygame.display.flip()
     clock.tick(60)
 
     counter += 1
 
     if pygame.key.get_pressed()[pygame.K_RIGHT]:
-        cartForce = 10
+        cartForce = 30
     elif pygame.key.get_pressed()[pygame.K_LEFT]:
-        cartForce = -10
+        cartForce = -30
     else:
         cartForce = 0
 

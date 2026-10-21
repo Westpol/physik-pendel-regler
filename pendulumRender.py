@@ -15,6 +15,7 @@ class PendulumRenderer:
 
         cartPos += self.width // 2      # scale arguments to correct values
         angle += math.pi / 2
+        angle *= -1
 
         x = math.cos(angle) * self.length + cartPos     # calculate pendulum end position
         y = math.sin(angle) * self.length + self.height // 2

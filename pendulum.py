@@ -18,18 +18,31 @@ class Pendulum:
 
     def update(self, force: float):
         now = time.time()
-        cartAcceleration: float =
-        pendulumAcceleration: float =
+        dt = now - self.lastUpdate
+
+        sin_theta = math.sin(self.angle)
+        cos_theta = math.cos(self.angle)
+
+        M = self.cartMass
+        m = self.pendulumMass
+        L = self.pendulumLength / 400   # 400 pixel per meter
+        g = 9.81
+
+        denominator = M + m * sin_theta ** 2
+
+        cartAcceleration = (force - m * L * self.angularVelocity ** 2 * sin_theta + m * g * sin_theta * cos_theta) / denominator
+
+        pendulumAcceleration = (force * cos_theta - m * L * self.angularVelocity ** 2 * sin_theta * cos_theta + (M + m) * g * sin_theta) / (L * denominator)
 
         # ============== velocity from acceleration =============
-        self.cartVelocity += cartAcceleration * (now - self.lastUpdate)
-        self.angularVelocity += pendulumAcceleration * (now - self.lastUpdate)
+        self.cartVelocity += cartAcceleration * dt
+        self.angularVelocity += pendulumAcceleration * dt
 
         # ============== position from velocity ====================
-        self.cartPosition += self.cartVelocity * (now - self.lastUpdate)
-        self.angle += self.angularVelocity * (now - self.lastUpdate)
+        self.cartPosition += self.cartVelocity * dt
+        self.angle += self.angularVelocity * dt
 
         self.lastUpdate = now
 
-    def render(self, angle: float, cartPos: float | int) -> pygame.Surface:
-        return self.pr.render(self.angle, self.cartPosition)
+    def render(self) -> pygame.Surface:
+        return self.pr.render(self.angle, self.cartPosition * 400)
