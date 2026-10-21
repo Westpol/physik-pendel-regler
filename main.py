@@ -12,23 +12,23 @@ pendulum = pendulum.Pendulum()
 clock = pygame.time.Clock()
 
 counter = 0
-cartPos = 0
+cartForce = 0
 
 while True:
     # ========================== main loop ============================
-    pendulum.update()
-    screen.blit(pendulum.render(math.sin((counter / 100)) * math.pi, cartPos), (0, 0))
+    pendulum.update(cartForce)
+    screen.blit(pendulum.render(math.sin((counter / 100)) * math.pi, cartForce), (0, 0))
     pygame.display.flip()
     clock.tick(60)
 
     counter += 1
 
     if pygame.key.get_pressed()[pygame.K_RIGHT]:
-        cartPos += 10
-    if pygame.key.get_pressed()[pygame.K_LEFT]:
-        cartPos -= 10
-
-    cartPos = max(min(cartPos, 650), -650)
+        cartForce = 10
+    elif pygame.key.get_pressed()[pygame.K_LEFT]:
+        cartForce = -10
+    else:
+        cartForce = 0
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

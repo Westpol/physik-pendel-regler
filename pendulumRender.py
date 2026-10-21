@@ -11,7 +11,7 @@ class PendulumRenderer:
         self.panel = pygame.Surface((self.width, self.height))
 
     def render(self, angle: float, cartPos: float | int) -> pygame.Surface:
-        self.panel.fill((0, 0, 0))      # reset screen
+        self.panel.fill((50, 50, 50))      # reset screen
 
         cartPos += self.width // 2      # scale arguments to correct values
         angle += math.pi / 2
