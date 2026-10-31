@@ -47,10 +47,16 @@ class Pendulum:
     def render(self) -> pygame.Surface:
         # return self.pr.render(self.angle, self.cartPosition * 400)
         # TEMPORARY
-        return self.pr.render(self.angle, self.cartPosition)
+        return self.pr.render(self.angle, self.cartPosition * 1)
 
     def getAngle(self) -> float:
         return self.angle % (2 * math.pi)
 
     def getVelocity(self) -> float:
         return self.angularVelocity
+
+    def getCartPos(self) -> float:
+        return self.cartPosition
+
+    def getCartVelocity(self) -> float:
+        return self.cartVelocity
