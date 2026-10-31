@@ -15,9 +15,19 @@ class Controller:
         velocity = self.pendulum.getVelocity()
 
         if angle < math.pi / 2 or angle > math.pi * 2 - (math.pi / 2):
-            print("upright")
+            # upright
+            # negative = right
+            if velocity < 0:
+                return 100
+            else:
+                return -100
         else:
-            print("downright")
+            # downright
+            # degative = left
+            if velocity < 0:
+                return -100
+            else:
+                return 100
 
         #print(angle)
         #print(1/(now - self.lastUpdate))
