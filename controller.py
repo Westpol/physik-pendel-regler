@@ -13,25 +13,25 @@ class Controller:
 
         angle = self.pendulum.getAngle()
         velocity = self.pendulum.getVelocity()
+        pAngle = (angle + math.pi) % (2 * math.pi)
 
+        correctiveCommand: float = 0
+
+        # pendulum PID
         if angle < math.pi / 2 or angle > math.pi * 2 - (math.pi / 2):
             # upright
             # negative = right
-            if velocity < 0:
-                return 100
-            else:
-                return -100
+            correctiveCommand += -(pAngle - math.pi) * 1000     # P
+            correctiveCommand += -velocity * 100                # I
         else:
             # downright
             # degative = left
-            if velocity < 0:
-                return -100
-            else:
-                return 100
+            correctiveCommand += (pAngle - math.pi) * 100
+            correctiveCommand += velocity * 100
 
-        #print(angle)
+        print()
         #print(1/(now - self.lastUpdate))
 
         self.lastUpdate = now
 
-        return 0
+        return correctiveCommand
