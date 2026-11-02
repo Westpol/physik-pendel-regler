@@ -13,8 +13,8 @@ class controlSwitch:
 
         # ================== switch title ================
         pygame.font.init()
-        self.font = pygame.font.Font(None, 20)
-        self.title = self.font.render(self.name, True, (255, 255, 255))
+        self.font = pygame.font.Font(None, 36)
+        self.title = self.font.render(self.name, False, (255, 255, 255))
         self.totalHeight = self.title.get_height() + 10 + self.height
         self.totalWidth = max(self.title.get_width(), self.width)
 
@@ -23,7 +23,7 @@ class controlSwitch:
         self.titlePanel = pygame.Surface((self.width, self.height))
 
         # ================= complete panel ===============
-        self.allPanel = pygame.Surface((self.width, self.height))
+        self.allPanel = pygame.Surface((self.totalWidth, self.totalHeight))
 
     def checkClick(self, clickPos: tuple[int, int]) -> None:
         # check if click is within render box
@@ -40,11 +40,12 @@ class controlSwitch:
         return self.switchPanel
 
     def renderTitle(self) -> pygame.Surface:
-        self.titlePanel.fill((255, 255, 255))
-        return self.titlePanel
+        self.title = self.font.render(self.name, True, (255, 255, 255))
+        return self.title
 
     def renderAll(self) -> pygame.Surface:
-        self.allPanel.fill((255, 255, 255))
+        self.allPanel.blit(self.renderSwitch(), (0, 0))
+        self.allPanel.blit(self.renderTitle(), (0, self.height))
         return self.allPanel
 
     def getState(self) -> bool:
