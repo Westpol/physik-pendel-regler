@@ -50,9 +50,9 @@ class Pendulum:
         self.lastUpdate = now
 
     def render(self) -> pygame.Surface:
-        return self.pr.render(self.angle, self.cartPosition * 400)
+        # return self.pr.render(self.angle, self.cartPosition * 400)
         # TEMPORARY
-        # return self.pr.render(self.angle, self.cartPosition * 100)
+        return self.pr.render(self.angle, self.cartPosition * 50)
 
     def unpause(self):
         self.lastUpdate = time.time()
