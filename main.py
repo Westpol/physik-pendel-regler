@@ -20,19 +20,23 @@ correction = 0
 
 control_switch = controlSwitch.controlSwitch(30, 1200, "Controller", state=True)
 
+paused: bool = False
+
 while True:
     # ========================== main loop ============================
-    if controllerEnabled:
-        correction = controller.update()    # PID controller
+    if not paused:
+        if controllerEnabled:
+            correction = controller.update()    # PID controller
 
-    if pygame.key.get_pressed()[pygame.K_RIGHT]:    # override
-        correction = 100
-    elif pygame.key.get_pressed()[pygame.K_LEFT]:
-        correction = -100
-    elif not controllerEnabled:
-        correction = 0
+        if pygame.key.get_pressed()[pygame.K_RIGHT]:    # override
+            correction = 100
+        elif pygame.key.get_pressed()[pygame.K_LEFT]:
+            correction = -100
+        elif not controllerEnabled:
+            correction = 0
 
-    pendulum.update(min(max(correction, -maxForce), maxForce))
+        pendulum.update(min(max(correction, -maxForce), maxForce))
+
     screen.blit(pendulum.render(), (0, 0))
     screen.blit(control_switch.renderAll(), control_switch.getPos())
     pygame.display.flip()
@@ -45,9 +49,14 @@ while True:
             exit()
 
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_p:
+            if event.key == pygame.K_c:
                 controllerEnabled = not controllerEnabled
                 control_switch.setState(controllerEnabled)
+            if event.key == pygame.K_p:
+                paused = not paused
+                if not paused:
+                    pendulum.unpause()
+                    controller.unpause()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             control_switch.checkClick(pygame.mouse.get_pos())

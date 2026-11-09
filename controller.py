@@ -23,7 +23,7 @@ class Controller:
         # cart PID
 
         angleSetpoint += cartPos * 0.1
-        angleSetpoint += (cartVelocity * 0.3) * (min(abs(cartPos * 0.1), 0.9) + 0.2)  # D and relax
+        angleSetpoint += (cartVelocity * 0.3) * (min(abs(cartPos * 0.1), 0.9) + 0.2)  # D and D relax
         angleSetpoint += cartPos * 0.02
 
         angleSetpoint = min(max(angleSetpoint, math.pi - math.pi / 8), math.pi + math.pi / 8)
@@ -36,7 +36,7 @@ class Controller:
             correctiveCommand += -velocity * 100                # D
         else:
             # downright
-            # degative = left
+            # negative = left
             correctiveCommand += (pAngle - angleSetpoint) * 100
             correctiveCommand += velocity * 100
 
@@ -46,3 +46,6 @@ class Controller:
         self.lastUpdate = now
 
         return correctiveCommand
+
+    def unpause(self):
+        self.lastUpdate = time.time()

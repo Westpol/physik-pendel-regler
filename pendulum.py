@@ -45,9 +45,12 @@ class Pendulum:
         self.lastUpdate = now
 
     def render(self) -> pygame.Surface:
-        # return self.pr.render(self.angle, self.cartPosition * 400)
+        return self.pr.render(self.angle, self.cartPosition * 400)
         # TEMPORARY
-         return self.pr.render(self.angle, self.cartPosition * 100)
+        # return self.pr.render(self.angle, self.cartPosition * 100)
+
+    def unpause(self):
+        self.lastUpdate = time.time()
 
     def getAngle(self) -> float:
         return self.angle % (2 * math.pi)
