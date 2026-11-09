@@ -20,6 +20,11 @@ class Pendulum:
         now = time.time()
         dt = now - self.lastUpdate
 
+        # skip calculation if dt is 0
+        if dt == 0:
+            self.lastUpdate = now
+            return
+
         sin_theta = math.sin(self.angle)
         cos_theta = math.cos(self.angle)
 

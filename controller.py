@@ -10,6 +10,12 @@ class Controller:
 
     def update(self) -> float:
         now = time.time()
+        dt = now - self.lastUpdate
+
+        # skip calculation if dt is 0
+        if dt == 0:
+            self.lastUpdate = now
+            return 0
 
         angle = self.pendulum.getAngle()
         velocity = self.pendulum.getVelocity()
