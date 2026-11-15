@@ -15,11 +15,10 @@ controller = controller.Controller(pendulum)
 clock = pygame.time.Clock()
 
 maxForce = 100
-debugEnabled: bool = False
 correction = 0
 
 control_switch = controlSwitch.controlSwitch(30, 1200, "Controller", state=True)
-debug_switch = controlSwitch.controlSwitch(30, 1200, "Debug", state=False)
+debug_switch = controlSwitch.controlSwitch(150, 1200, "Debug", state=False)
 
 paused: bool = False
 
@@ -40,6 +39,7 @@ while True:
 
     screen.blit(pendulum.render(), (0, 0))
     screen.blit(control_switch.renderAll(), control_switch.getPos())
+    screen.blit(debug_switch.renderAll(), debug_switch.getPos())
     pygame.display.flip()
     clock.tick(60)
 
@@ -52,6 +52,8 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_c:
                 control_switch.toggleState()
+            if event.key == pygame.K_d:
+                debug_switch.toggleState()
             if event.key == pygame.K_p:
                 paused = not paused
                 if not paused:
@@ -59,4 +61,6 @@ while True:
                     controller.unpause()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            control_switch.checkClick(pygame.mouse.get_pos())
+            mousePos = pygame.mouse.get_pos()
+            control_switch.checkClick(mousePos)
+            debug_switch.checkClick(mousePos)
