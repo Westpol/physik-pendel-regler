@@ -15,24 +15,25 @@ controller = controller.Controller(pendulum)
 clock = pygame.time.Clock()
 
 maxForce = 100
-controllerEnabled: bool = True
+debugEnabled: bool = False
 correction = 0
 
 control_switch = controlSwitch.controlSwitch(30, 1200, "Controller", state=True)
+debug_switch = controlSwitch.controlSwitch(30, 1200, "Debug", state=False)
 
 paused: bool = False
 
 while True:
     # ========================== main loop ============================
     if not paused:
-        if controllerEnabled:
+        if control_switch.getState():
             correction = controller.update()    # PID controller
 
         if pygame.key.get_pressed()[pygame.K_RIGHT]:    # override
             correction = 100
         elif pygame.key.get_pressed()[pygame.K_LEFT]:
             correction = -100
-        elif not controllerEnabled:
+        elif not control_switch.getState():
             correction = 0
 
         pendulum.update(min(max(correction, -maxForce), maxForce))
@@ -50,8 +51,7 @@ while True:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_c:
-                controllerEnabled = not controllerEnabled
-                control_switch.setState(controllerEnabled)
+                control_switch.toggleState()
             if event.key == pygame.K_p:
                 paused = not paused
                 if not paused:
@@ -60,4 +60,3 @@ while True:
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             control_switch.checkClick(pygame.mouse.get_pos())
-            controllerEnabled = control_switch.getState()
