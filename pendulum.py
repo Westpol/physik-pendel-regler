@@ -50,16 +50,22 @@ class Pendulum:
         self.lastUpdate = now
 
     def render(self) -> pygame.Surface:
-        distance = abs(self.cartPosition)
+        BASE_SCALING = 400
+        MAX_SCALING = 600
+        MIN_SCALING = 50
 
-        scaling = 600 / (1 + distance)
+        maxDistance = (self.pr.width - 200) / 2     # Maximum visible distance in pixels
 
-        scaling = min(max(scaling, 50), 600)    # clamping scaling to 50 pixels per meter to 600 pixels per meter
+        distance = abs(self.cartPosition) * BASE_SCALING    # Distance the cart travels in pixels at the default scale
 
-        scaling = 400
-        return self.pr.render(self.angle, self.cartPosition * int(scaling), int(scaling))
-        # TEMPORARY
-        # return self.pr.render(self.angle, self.cartPosition * 50)
+        scaling = BASE_SCALING
+
+        if distance > maxDistance:      # Only zoom out when the cart reaches the end of the rail
+            scaling = BASE_SCALING * (maxDistance / distance)
+
+        scaling = min(max(scaling, MIN_SCALING), MAX_SCALING)
+
+        return self.pr.render(self.angle, self.cartPosition * scaling, int(scaling))
 
     def unpause(self):
         self.lastUpdate = time.time()
