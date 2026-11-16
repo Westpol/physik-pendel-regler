@@ -10,7 +10,7 @@ class PendulumRenderer:
         self.ballRadius = ballRadius
         self.panel = pygame.Surface((self.width, self.height))
 
-    def render(self, angle: float, cartPos: float | int) -> pygame.Surface:
+    def render(self, angle: float, cartPos: float | int, scaling: int) -> pygame.Surface:
         self.panel.fill((50, 50, 50))      # reset screen
 
         cartPos += self.width // 2      # scale arguments to correct values
@@ -26,5 +26,20 @@ class PendulumRenderer:
         pygame.draw.line(self.panel, (255, 255, 255), (cartPos, self.height // 2), (x, y), 2)   # draw pendulum
         pygame.draw.circle(self.panel, (255, 255, 255), (x, y), self.ballRadius)
 
+        barHalfLength: int = (self.width - 200) // 2
+        barHalfPos: int = self.width // 2
+        barHalfHeight: int = self.height // 2
+
+        iterator: int = 0
+
+        pygame.draw.line(self.panel, (255, 255, 255), (barHalfPos, barHalfHeight + 25), (barHalfPos, barHalfHeight - 25), 5)
+
+        while True:
+            lineOffsets: int = scaling * iterator
+            if lineOffsets >= barHalfLength:
+                break
+            pygame.draw.line(self.panel, (255, 255, 255), (barHalfPos + lineOffsets, barHalfHeight + 15), (barHalfPos + lineOffsets, barHalfHeight - 15), 5)
+            pygame.draw.line(self.panel, (255, 255, 255), (barHalfPos - lineOffsets, barHalfHeight + 15), (barHalfPos - lineOffsets, barHalfHeight - 15), 5)
+            iterator += 1
 
         return self.panel

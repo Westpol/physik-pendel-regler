@@ -50,9 +50,16 @@ class Pendulum:
         self.lastUpdate = now
 
     def render(self) -> pygame.Surface:
-        # return self.pr.render(self.angle, self.cartPosition * 400)
+        distance = abs(self.cartPosition)
+
+        scaling = 600 / (1 + distance)
+
+        scaling = min(max(scaling, 50), 600)    # clamping scaling to 50 pixels per meter to 600 pixels per meter
+
+        scaling = 400
+        return self.pr.render(self.angle, self.cartPosition * int(scaling), int(scaling))
         # TEMPORARY
-        return self.pr.render(self.angle, self.cartPosition * 50)
+        # return self.pr.render(self.angle, self.cartPosition * 50)
 
     def unpause(self):
         self.lastUpdate = time.time()
