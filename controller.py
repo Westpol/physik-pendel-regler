@@ -27,6 +27,22 @@ class Controller:
 
         correctiveCommand: float = 0
 
+        if self.wasDown:
+            pAngle = (pAngle - math.pi) % (2 * math.pi)
+            angleSetpoint = math.pi
+
+            angleSetpoint += cartPos * 0.1
+            angleSetpoint += (cartVelocity * 0.6) * (min(abs(cartPos * 0.1), 0.9) + 0.2)  # D and D relax
+            angleSetpoint += cartPos * 0.02
+
+            angleSetpoint = min(max(angleSetpoint, math.pi - math.pi / 8), math.pi + math.pi / 8)
+
+            correctiveCommand += (pAngle - angleSetpoint) * 100
+            correctiveCommand += velocity * 100
+            if angle < math.pi / 2 or angle > math.pi * 2 - (math.pi / 2):
+                return -correctiveCommand
+            return correctiveCommand
+
         # cart PID
 
         angleSetpoint += cartPos * 0.1
