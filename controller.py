@@ -7,6 +7,7 @@ class Controller:
     def __init__(self, pendulum: pendulum.Pendulum):
         self.pendulum = pendulum
         self.lastUpdate = time.time()
+        self.wasDown: bool = False
 
     def update(self) -> float:
         now = time.time()
@@ -34,6 +35,9 @@ class Controller:
 
         angleSetpoint = min(max(angleSetpoint, math.pi - math.pi / 8), math.pi + math.pi / 8)
 
+        if self.wasDown:
+            return 0
+
         # pendulum PID
         if angle < math.pi / 2 or angle > math.pi * 2 - (math.pi / 2):
             # upright
@@ -43,11 +47,13 @@ class Controller:
         else:
             # downright
             # negative = left
-            correctiveCommand += (pAngle - angleSetpoint) * 100
-            correctiveCommand += velocity * 100
+            # correctiveCommand += (pAngle - angleSetpoint) * 100
+            # correctiveCommand += velocity * 100
+            self.wasDown = True
 
         #print(correctiveCommand)
         #print(1/(now - self.lastUpdate))
+        #print(angle < math.pi / 2 or angle > math.pi * 2 - (math.pi / 2))
 
         self.lastUpdate = now
 
