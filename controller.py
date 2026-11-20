@@ -24,6 +24,7 @@ class Controller:
         cartVelocity = self.pendulum.getCartVelocity()
         pAngle = (angle + math.pi) % (2 * math.pi)
         angleSetpoint = math.pi
+        #print(abs(cartPos) < 0.2 and abs(cartVelocity) < 0.1, cartVelocity)    condition for flip up maneuver
 
         correctiveCommand: float = 0
 
